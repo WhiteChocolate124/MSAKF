@@ -10,6 +10,7 @@ uniform sampler2D src;
 
 uniform float SatM = 1.0;
 uniform float HueM = 1.0;
+uniform float ValM = 1.0;
 
 #define PI 3.14159265358979323846
 #define NEWTON_ITER 1
@@ -688,6 +689,7 @@ void main(){
 	HSV color = srgb_to_okhsv(RGB(tex.r, tex.g, tex.b));
 	color.s = clamp(color.s * pow(SatM, -log(float(color.s))), 0.0, 1.0);
 	color.h = color.h * HueM;
+	color.v = clamp(((color.v - 0.5) * ValM) + 0.5, 0.0, 1.0);
 	RGB modcolor = okhsv_to_srgb(color);
 	tex = vec4(modcolor.r, modcolor.g, modcolor.b, tex.a);
 	frag_color = tex;
